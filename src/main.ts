@@ -1,21 +1,29 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { setupConfigs } from './setup';
-import { SwaggerModule } from "@nestjs/swagger";
-import { YAML } from "yamljs";
+import { parse } from "yamljs";
+import * as fs from "fs";
+import * as swaggerUi from "swagger-ui-express";
 
 async function bootstrap() {
   try {
+    const port = process.env.PORT || 4000;
     const app = await NestFactory.create(AppModule);
 
     setupConfigs(app);
 
-    const swaggerDocum = YAML.load("../doc/api.yaml");
+    const swaggerDocument = parse(fs.readFileSync("./doc/api.yaml", "utf-8"));
 
-    const document = SwaggerModule.createDocument(app, swaggerDocum);
-    SwaggerModule.setup('/', app, document);
+    app.use(
+      "/",
+      swaggerUi.serve,
+      swaggerUi.setup(swaggerDocument)
+    );
 
-    await app.listen(4000);
+    await app.listen(port, () => {
+      console.log(`Server running on ${port } port`);
+    });
+
   } catch (error) {
     console.log(error);
   }
