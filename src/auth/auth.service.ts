@@ -28,11 +28,12 @@ export class AuthService {
     }
 
     public async register(data: IRegister): Promise<string> {
-        const user = this.userService.findUser(data.login);
+        
+        const user = await this.userService.findUser(data.login);
 
-        if (!user) throw new BadRequestException("Conflict. Login already exists");
+        if (user) throw new BadRequestException("Conflict. Login already exists");
 
-        const hashPass = await bcrypt.hash(data.password, process.env.CRYPT_SALT);
+        const hashPass = await bcrypt.hash(data.password, Number(process.env.CRYPT_SALT));
 
         const newUser = {
             login: data.login,

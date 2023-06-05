@@ -1,5 +1,4 @@
 import { BadRequestException, Injectable } from "@nestjs/common";
-import { IFavorites } from "./interface/fav.interface";
 import { TrackService } from "../tracks/tracks.service";
 import { AlbomService } from "src/albums/albums.service";
 import { ArtistService } from "src/artists/artists.service";
@@ -8,10 +7,14 @@ import { validate } from "uuid";
 
 @Injectable()
 export class FavService {
-    private favorites = {} as IFavorites;
+    private favorites = {
+        artists: [],
+        tracks: [],
+        albums: []
+    };
     constructor(
-        private readonly trackService: TrackService,
         private readonly albomService: AlbomService,
+        private readonly trackService: TrackService,
         private readonly artistService: ArtistService
     ){}
 
@@ -38,7 +41,7 @@ export class FavService {
 
         if (!artist) throw new BadRequestException("Artist not found")
 
-        const artInd = this.favorites.artists.findIndex(atrist => artist.id == id);
+        const artInd = this.favorites.artists.findIndex(art => art.id == id);
 
         if (artInd == -1) throw new BadRequestException("Favorites not found artist")
 
@@ -66,7 +69,7 @@ export class FavService {
 
         if (!track) throw new BadRequestException("track not found")
 
-        const artInd = this.favorites.tracks.findIndex(track => track.id == id);
+        const artInd = this.favorites.tracks.findIndex(trc => trc.id == id);
 
         if (artInd == -1) throw new BadRequestException("Favorites not found track")
 
@@ -95,7 +98,7 @@ export class FavService {
 
         if (!albom) throw new BadRequestException("albom not found")
 
-        const artInd = this.favorites.albums.findIndex(albom => albom.id == id);
+        const artInd = this.favorites.albums.findIndex(alb => alb.id == id);
 
         if (artInd == -1) throw new BadRequestException("Favorites not found albom")
 
