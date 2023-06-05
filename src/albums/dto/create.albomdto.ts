@@ -10,7 +10,5 @@ export class AlbomDto {
     @IsNotEmpty()
     year: number;
 
-    @IsString()
-    @IsNotEmpty()
-    artistId: string;
+    artistId: string | null;
 }
