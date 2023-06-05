@@ -32,7 +32,7 @@ export class AuthService {
 
         if (!user) throw new BadRequestException("Conflict. Login already exists");
 
-        const hashPass = await bcrypt.hash(data.password, 10);
+        const hashPass = await bcrypt.hash(data.password, process.env.CRYPT_SALT);
 
         const newUser = {
             login: data.login,

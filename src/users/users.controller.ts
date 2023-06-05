@@ -3,7 +3,7 @@ import { IUserReturnType } from "./interface/user.interface";
 import { UserService } from "./users.service";
 import { CreateUserDto } from "./dto/create.userdto";
 import { UpdateUserDto } from "./dto/update.userdto";
-import { ApiBody, ApiParam, ApiTags } from "@nestjs/swagger";
+import { ApiParam, ApiTags } from "@nestjs/swagger";
 
 @ApiTags("users")
 @Controller("users")
