@@ -64,10 +64,31 @@ export class UserService {
         if (!validate(id)) throw new BadRequestException("Bad request. userId is invalid (not uuid)")
 
         const findUser = this.users.findIndex(user => user.id == id);
-        if (!findUser) throw new BadRequestException("User not found!")
+        if (findUser == -1) throw new BadRequestException("User not found!")
 
         this.users.splice(findUser, 1);
 
         return "The user has been deleted";
     }   
+
+    public async findUser(login: string): Promise<IUser> {
+        const user = this.users.find(user => user.login == login)
+
+        return user;
+    }
+
+    public async addUser(data: IUserCreate): Promise<string> {
+        const newUser = {
+            id: uuidv4(),
+            login: data.login,
+            password: data.password,
+            version: 1,
+            createdAt: Date.now(),
+            updatedAt: Date.now()
+        }
+
+        this.users.push(newUser)
+
+        return "Successful signup"
+    }
 }

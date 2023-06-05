@@ -35,17 +35,18 @@ export class TrackService {
     }
 
     public async updateTrack(id: string, data: ITrack): Promise<ITrack> {
+        
         if (!validate(id)) throw new BadRequestException("Bad request. trackId is invalid (not uuid)")
 
         const track = this.tracks.find(track => track.id == id);
 
         if (!track) throw new BadRequestException("Track not found!")
 
-        const res =  this.tracks.map(
+        this.tracks.map(
             (item) => item.id == id ? { ...item, ...data } : item
         ) 
 
-        return
+        return data
     }
 
     public async deleteTrack(id: string): Promise<string> {
@@ -53,7 +54,8 @@ export class TrackService {
         if (!validate(id)) throw new BadRequestException("Bad request. trackId is invalid (not uuid)")
 
         const track = this.tracks.findIndex(user => user.id == id);
-        if (!track) throw new BadRequestException("track not found!")
+
+        if (track == -1) throw new BadRequestException("track not found!")
 
         this.tracks.splice(track, 1);
 

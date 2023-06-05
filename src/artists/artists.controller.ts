@@ -12,30 +12,30 @@ export class ArtistController {
 
     @Get()
     public async getAllArtist(): Promise<IArtist[]>{
-        return
+        return this.artistService.getAllArtist();
     }
 
     @ApiParam({name: "id"})
     @Get(":id")
     public async getOneArtist(@Param("id") id: string): Promise<IArtist> {
-        return
+        return this.artistService.getOneArtist(id);
     }
 
     @Post("")
     public async createArtist(@Body() data: CreateArtistDto): Promise<IArtist> {
-        return
+        return this.artistService.createArtist(data);
     }
 
     @ApiParam({name: "id"})
     @Put(":id")
     public async updateArtist(@Param("id") id: string, @Body() data: CreateArtistDto): Promise<IArtist>{
-        return
+        return this.artistService.updateArtist(id, data);
     }
 
     @ApiParam({name: "id"})
     @Delete(":id")
     public async deleteArtist(@Param("id") id: string): Promise<string>{
-        return
+        return this.artistService.deleteArtist(id);
     }
 
 }

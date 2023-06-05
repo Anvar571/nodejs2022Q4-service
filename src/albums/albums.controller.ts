@@ -11,27 +11,27 @@ export class AlbomController{
 
     @Get()
     public async getAllAlbom(): Promise<IAlbom[]>{
-        return
+        return this.albomService.getAllAlbom()
     }
 
     @Get(":id")
     public async getOneAlbom(@Param("id") id: string): Promise<IAlbom>{
-        return
+        return this.albomService.getOneAlbom(id);
     }
 
     @Post()
     public async createAlbom(@Body() data: AlbomDto): Promise<IAlbom>{
-        return
+        return this.albomService.createAlbom(data)
     }
 
     @Put(":id")
     public async updateAlbom(@Param("id") id: string, @Body() data: AlbomDto): Promise<IAlbom>{
-        return
+        return this.albomService.updateAlbom(id, data);
     }
 
     @Delete(":id")
     public async deleteAlbom(@Param("id") id: string): Promise<string>{
-        return 
+        return this.albomService.deleteAlbom(id);
     }
 
 }
