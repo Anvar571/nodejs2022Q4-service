@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger"
 import { setupConfigs } from './setup';
 import { parse } from "yamljs";
 import * as fs from "fs";
@@ -12,16 +13,26 @@ async function bootstrap() {
 
     setupConfigs(app);
 
-    const swaggerDocument = parse(fs.readFileSync("./doc/api.yaml", "utf-8"));
+    const config = new DocumentBuilder()
+      .addBearerAuth()
+      .setTitle("Home Library Service")
+      .setDescription("Home music library service")
+      .setVersion("1.0.0")
+      .build();
 
-    app.use(
-      "/",
-      swaggerUi.serve,
-      swaggerUi.setup(swaggerDocument)
-    );
+    const document = SwaggerModule.createDocument(app, config);
+    
+    SwaggerModule.setup("/", app, document);
+    // const swaggerDocument = parse(fs.readFileSync("./doc/api.yaml", "utf-8"));
+
+    // app.use(
+    //   "/",
+    //   swaggerUi.serve,
+    //   swaggerUi.setup(swaggerDocument)
+    // );
 
     await app.listen(port, () => {
-      console.log(`Server running on ${port } port`);
+      console.log(`Server running ----> ${port } port`);
     });
 
   } catch (error) {
