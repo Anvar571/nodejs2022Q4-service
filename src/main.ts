@@ -23,13 +23,14 @@ async function bootstrap() {
     const document = SwaggerModule.createDocument(app, config);
     
     SwaggerModule.setup("/", app, document);
-    // const swaggerDocument = parse(fs.readFileSync("./doc/api.yaml", "utf-8"));
 
-    // app.use(
-    //   "/",
-    //   swaggerUi.serve,
-    //   swaggerUi.setup(swaggerDocument)
-    // );
+    const swaggerDocument = parse(fs.readFileSync("./doc/api.yaml", "utf-8"));
+
+    app.use(
+      "/api",
+      swaggerUi.serve,
+      swaggerUi.setup(swaggerDocument)
+    );
 
     await app.listen(port, () => {
       console.log(`Server running ----> ${port } port`);
